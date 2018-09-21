@@ -9,7 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -23,6 +26,7 @@ public class Principal_frame extends javax.swing.JFrame {
         
     administrarClientes ac = new administrarClientes("./clientes.txt");
     administrarMantenimiento am = new administrarMantenimiento("./mantenimiento.txt");
+    administradorATM atm = new administradorATM("./atms.txt");
     public Principal_frame() {
         initComponents();
         admins.add(new Administrador("admin", "admin", "12345"));
@@ -41,6 +45,7 @@ public class Principal_frame extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         crearuser = new javax.swing.JButton();
         crearatm = new javax.swing.JButton();
+        jb_personal_atm = new javax.swing.JButton();
         jd_administrator = new javax.swing.JDialog();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -70,6 +75,24 @@ public class Principal_frame extends javax.swing.JFrame {
         tf_affilation = new javax.swing.JTextField();
         cb_type_user = new javax.swing.JComboBox();
         jb_crearuser_xp = new javax.swing.JButton();
+        jd_newatm = new javax.swing.JDialog();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        tf_atm_ubicacion = new javax.swing.JTextField();
+        cb_mantenimiento = new javax.swing.JComboBox();
+        tf_id_atm = new javax.swing.JTextField();
+        tf_productiondate_atm = new javax.swing.JTextField();
+        jb_crear_atm = new javax.swing.JButton();
+        jd_personnel = new javax.swing.JDialog();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jt_personal_mantenimiento = new javax.swing.JTree();
+        Popup_addatm = new javax.swing.JPopupMenu();
+        jmi_addatm = new javax.swing.JMenuItem();
+        jd_agregar_atm = new javax.swing.JDialog();
+        cb_atms_disponibles = new javax.swing.JComboBox();
+        jb_add_atm_to_user = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jb_ingresar = new javax.swing.JButton();
         jb_administrar = new javax.swing.JButton();
@@ -85,6 +108,18 @@ public class Principal_frame extends javax.swing.JFrame {
         });
 
         crearatm.setText("ATM");
+        crearatm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                crearatmMouseClicked(evt);
+            }
+        });
+
+        jb_personal_atm.setText("Agregar atm a personal");
+        jb_personal_atm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_personal_atmMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jd_registerLayout = new javax.swing.GroupLayout(jd_register.getContentPane());
         jd_register.getContentPane().setLayout(jd_registerLayout);
@@ -96,10 +131,15 @@ public class Principal_frame extends javax.swing.JFrame {
                 .addContainerGap(178, Short.MAX_VALUE))
             .addGroup(jd_registerLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addComponent(crearuser)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(crearatm)
-                .addGap(59, 59, 59))
+                .addGroup(jd_registerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_registerLayout.createSequentialGroup()
+                        .addComponent(jb_personal_atm)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jd_registerLayout.createSequentialGroup()
+                        .addComponent(crearuser)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(crearatm)
+                        .addGap(59, 59, 59))))
         );
         jd_registerLayout.setVerticalGroup(
             jd_registerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,7 +150,9 @@ public class Principal_frame extends javax.swing.JFrame {
                 .addGroup(jd_registerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(crearuser)
                     .addComponent(crearatm))
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(jb_personal_atm)
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         jLabel2.setText("Credenciales");
@@ -299,6 +341,131 @@ public class Principal_frame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jb_crearuser_xp)
                 .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        jLabel16.setText("Ubicacion");
+
+        jLabel17.setText("ID");
+
+        jLabel18.setText("Production Date");
+
+        jLabel19.setText("Mantenimiento");
+
+        cb_mantenimiento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Semanal", "Mensualmente" }));
+
+        jb_crear_atm.setText("Crear ATM");
+        jb_crear_atm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_crear_atmMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_newatmLayout = new javax.swing.GroupLayout(jd_newatm.getContentPane());
+        jd_newatm.getContentPane().setLayout(jd_newatmLayout);
+        jd_newatmLayout.setHorizontalGroup(
+            jd_newatmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_newatmLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jd_newatmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel18))
+                .addGap(35, 35, 35)
+                .addGroup(jd_newatmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tf_atm_ubicacion)
+                    .addComponent(cb_mantenimiento, 0, 131, Short.MAX_VALUE)
+                    .addComponent(tf_id_atm)
+                    .addComponent(tf_productiondate_atm)
+                    .addGroup(jd_newatmLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(jb_crear_atm)))
+                .addContainerGap(146, Short.MAX_VALUE))
+        );
+        jd_newatmLayout.setVerticalGroup(
+            jd_newatmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_newatmLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jd_newatmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(tf_atm_ubicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_newatmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(tf_id_atm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_newatmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(tf_productiondate_atm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_newatmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(cb_mantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addComponent(jb_crear_atm)
+                .addGap(53, 53, 53))
+        );
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Personnel");
+        jt_personal_mantenimiento.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jt_personal_mantenimiento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_personal_mantenimientoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jt_personal_mantenimiento);
+
+        javax.swing.GroupLayout jd_personnelLayout = new javax.swing.GroupLayout(jd_personnel.getContentPane());
+        jd_personnel.getContentPane().setLayout(jd_personnelLayout);
+        jd_personnelLayout.setHorizontalGroup(
+            jd_personnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_personnelLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+        jd_personnelLayout.setVerticalGroup(
+            jd_personnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_personnelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jmi_addatm.setText("Agregar atm");
+        jmi_addatm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_addatmActionPerformed(evt);
+            }
+        });
+        Popup_addatm.add(jmi_addatm);
+
+        jb_add_atm_to_user.setText("Agregar");
+        jb_add_atm_to_user.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_add_atm_to_userMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_agregar_atmLayout = new javax.swing.GroupLayout(jd_agregar_atm.getContentPane());
+        jd_agregar_atm.getContentPane().setLayout(jd_agregar_atmLayout);
+        jd_agregar_atmLayout.setHorizontalGroup(
+            jd_agregar_atmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_agregar_atmLayout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addGroup(jd_agregar_atmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jb_add_atm_to_user)
+                    .addComponent(cb_atms_disponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(225, Short.MAX_VALUE))
+        );
+        jd_agregar_atmLayout.setVerticalGroup(
+            jd_agregar_atmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_agregar_atmLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cb_atms_disponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addComponent(jb_add_atm_to_user)
+                .addGap(40, 40, 40))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -498,6 +665,133 @@ public class Principal_frame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jb_crearuser_xpMouseClicked
 
+    private void crearatmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_crearatmMouseClicked
+        // TODO add your handling code here:
+        jd_newatm.setModal(true);
+        jd_newatm.pack();
+        jd_newatm.setLocationRelativeTo(jd_register);
+        jd_newatm.setVisible(true);
+    }//GEN-LAST:event_crearatmMouseClicked
+
+    private void jb_crear_atmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_crear_atmMouseClicked
+        // TODO add your handling code here:
+        atm.cargarArchivo();
+        String ubicacion, id, date, maintenance;
+        id = tf_id_atm.getText();
+        ubicacion = tf_atm_ubicacion.getText();
+        date = tf_productiondate_atm.getText();
+        maintenance = cb_mantenimiento.getSelectedItem().toString();
+        int c = 0;
+        boolean validador = true;
+        for (atm m : atm.getAtms()) {
+            String user = atm.getAtms().get(c).getId();
+            if (user.equals(id)) {
+                JOptionPane.showMessageDialog(jd_user_create, "ID ya ocupada");
+
+                validador = false;
+            }
+            c++;
+        }
+        
+        if (validador) {
+            atm.setATM(new atm(ubicacion, id, date, maintenance));
+            try {
+                    atm.escribirArchivo();
+                } catch (IOException ex) {
+                    //Logger.getLogger(Login_menu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            JOptionPane.showMessageDialog(jd_newatm, "Se ingreso un nuevo atm");
+            jd_newatm.dispose();
+            tf_atm_ubicacion.setText("");
+            tf_productiondate_atm.setText("");
+            tf_id_atm.setText("");
+            
+        }
+
+    }//GEN-LAST:event_jb_crear_atmMouseClicked
+
+    private void jb_personal_atmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_personal_atmMouseClicked
+        // TODO add your handling code here:
+        DefaultTreeModel modeloARBOL
+                = (DefaultTreeModel) jt_personal_mantenimiento.getModel();
+        jt_personal_mantenimiento.removeAll();
+        DefaultMutableTreeNode raiz
+                = (DefaultMutableTreeNode) modeloARBOL.getRoot();
+        am.cargarArchivo();
+
+        String nombre, nombre2, apellido, apellido2, clave, birth, affilacion, id;
+        int counter = 0;
+        for (Mantenimiento m : am.getListaMantenimiento()) {
+            nombre = am.getListaMantenimiento().get(counter).getNombre();
+            nombre2 = am.getListaMantenimiento().get(counter).getSegundonombre();
+            apellido = am.getListaMantenimiento().get(counter).getApellido();
+            apellido2 = am.getListaMantenimiento().get(counter).getSegapellido();
+            clave = am.getListaMantenimiento().get(counter).getPassword();
+            birth = am.getListaMantenimiento().get(counter).getBirthdate();
+            affilacion = am.getListaMantenimiento().get(counter).getAffilation();
+            id = am.getListaMantenimiento().get(counter).getId();
+
+            DefaultMutableTreeNode p
+                    = new DefaultMutableTreeNode(
+                            new Mantenimiento(id, nombre, nombre2, apellido, apellido2,
+                                    clave, birth, affilacion)
+                    );
+
+            raiz.add(p);
+
+            modeloARBOL.reload();
+            counter++;
+        }
+        jd_personnel.setModal(true);
+        jd_personnel.pack();
+        jd_personnel.setLocationRelativeTo(jd_register);
+        jd_personnel.setVisible(true);
+          
+        
+    }//GEN-LAST:event_jb_personal_atmMouseClicked
+
+    private void jt_personal_mantenimientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_personal_mantenimientoMouseClicked
+        // TODO add your handling code here:
+        if (evt.isMetaDown()) {
+            int row = jt_personal_mantenimiento.getClosestRowForLocation(evt.getX(),evt.getY());
+            jt_personal_mantenimiento.setSelectionRow(row);
+            Object v1
+                    = jt_personal_mantenimiento.getSelectionPath().
+                            getLastPathComponent();
+            nodo_seleccionado = (DefaultMutableTreeNode) v1;
+            if (nodo_seleccionado.getUserObject() instanceof Mantenimiento) {
+                mant_seleccionado
+                        = (Mantenimiento)  nodo_seleccionado.
+                                getUserObject();
+                Popup_addatm.show(evt.getComponent(), 
+                        evt.getX(), evt.getY());
+            }
+            
+        }
+    }//GEN-LAST:event_jt_personal_mantenimientoMouseClicked
+
+    private void jmi_addatmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_addatmActionPerformed
+        // TODO add your handling code here:
+        DefaultComboBoxModel modeloc = (DefaultComboBoxModel) cb_atms_disponibles.getModel();
+        int counter_s = 0;
+        for (atm a : atm.getAtms()) {
+            modeloc.addElement(atm.getAtms().get(counter_s).getId());
+            counter_s++;
+        }
+        jd_agregar_atm.setModal(true);
+        jd_agregar_atm.pack();
+        jd_agregar_atm.setLocationRelativeTo(jd_register);
+        jd_register.setVisible(true);
+
+    }//GEN-LAST:event_jmi_addatmActionPerformed
+
+    private void jb_add_atm_to_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_add_atm_to_userMouseClicked
+        // TODO add your handling code here:
+        mant_seleccionado.setAtm(cb_atms_disponibles.getSelectedItem().toString());
+        JOptionPane.showMessageDialog(jd_agregar_atm, "Se ha agregado");
+        jd_agregar_atm.dispose();
+    }//GEN-LAST:event_jb_add_atm_to_userMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -534,7 +828,10 @@ public class Principal_frame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPopupMenu Popup_addatm;
     private javax.swing.JComboBox cb_atms;
+    private javax.swing.JComboBox cb_atms_disponibles;
+    private javax.swing.JComboBox cb_mantenimiento;
     private javax.swing.JComboBox cb_type_user;
     private javax.swing.JButton crearatm;
     private javax.swing.JButton crearuser;
@@ -545,6 +842,10 @@ public class Principal_frame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -553,24 +854,40 @@ public class Principal_frame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jb_add_atm_to_user;
     private javax.swing.JButton jb_admin_ingresar;
     private javax.swing.JButton jb_administrar;
+    private javax.swing.JButton jb_crear_atm;
     private javax.swing.JButton jb_crearuser_xp;
     private javax.swing.JButton jb_ingresar;
+    private javax.swing.JButton jb_personal_atm;
     private javax.swing.JDialog jd_administrator;
+    private javax.swing.JDialog jd_agregar_atm;
+    private javax.swing.JDialog jd_newatm;
+    private javax.swing.JDialog jd_personnel;
     private javax.swing.JDialog jd_register;
     private javax.swing.JDialog jd_user_create;
+    private javax.swing.JMenuItem jmi_addatm;
+    private javax.swing.JTree jt_personal_mantenimiento;
     private javax.swing.JPasswordField pf_admin;
     private javax.swing.JPasswordField pf_create_user;
     private javax.swing.JTextField tf_admin;
     private javax.swing.JTextField tf_affilation;
     private javax.swing.JTextField tf_apellido_user;
+    private javax.swing.JTextField tf_atm_ubicacion;
     private javax.swing.JTextField tf_birthdate;
+    private javax.swing.JTextField tf_id_atm;
     private javax.swing.JTextField tf_id_user_create;
     private javax.swing.JTextField tf_nombre_create_iuser;
+    private javax.swing.JTextField tf_productiondate_atm;
     private javax.swing.JTextField tf_segundoapellido_user;
     private javax.swing.JTextField tf_segundonombre;
     private javax.swing.JTextField tf_transacciones;
     // End of variables declaration//GEN-END:variables
     ArrayList<Administrador> admins = new ArrayList();
+    Mantenimiento mant_seleccionado;
+    atm atm_seleccionado;
+    Cliente cliente_seleccionado;
+    DefaultMutableTreeNode nodo_seleccionado;
 }
