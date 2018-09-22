@@ -904,11 +904,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Agregar DInero"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jb_add_money_moneyMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jb_exit_mantainance">
           <Properties>
             <Property name="text" type="java.lang.String" value="Exit"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jb_exit_mantainanceMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

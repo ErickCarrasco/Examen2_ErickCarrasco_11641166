@@ -658,8 +658,18 @@ public class Principal_frame extends javax.swing.JFrame {
         jl_hora.setText("00:00:00");
 
         jb_add_money_money.setText("Agregar DInero");
+        jb_add_money_money.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_add_money_moneyMouseClicked(evt);
+            }
+        });
 
         jb_exit_mantainance.setText("Exit");
+        jb_exit_mantainance.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_exit_mantainanceMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jd_mantenimiento_massivoLayout = new javax.swing.GroupLayout(jd_mantenimiento_massivo.getContentPane());
         jd_mantenimiento_massivo.getContentPane().setLayout(jd_mantenimiento_massivoLayout);
@@ -1220,6 +1230,8 @@ public class Principal_frame extends javax.swing.JFrame {
             jd_mantenimiento_massivo.pack();
             jd_mantenimiento_massivo.setLocationRelativeTo(jd_login);
             jd_mantenimiento_massivo.setVisible(true);
+            jl_codigo_atm.setText(atmcodex);
+            user_on_use= user_placed;
             pf_pass_login.setText("");
             tf_userlogin.setText("");
         }
@@ -1270,6 +1282,45 @@ public class Principal_frame extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jb_add_accountMouseClicked
+
+    private void jb_add_money_moneyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_add_money_moneyMouseClicked
+        // TODO add your handling code here:
+        int quantity = Integer.parseInt(JOptionPane.showInputDialog(jd_mantenimiento_massivo, 
+                "Ingrese una cantidad de dinero"));
+        atm.cargarArchivo();
+        
+        for (atm a : atm.getAtms()) {
+            if (a.getId().equals(atmcodex)) {
+                a.setMoney(quantity);
+            }
+        }
+        am.cargarArchivo();
+        String comparacion="";
+        for (Mantenimiento m : am.getListaMantenimiento()) {
+            if (m.getId().equals(user_on_use)) {
+                comparacion =m.getAtm();
+            }
+        }
+        String alerta;
+        if (comparacion == atmcodex) {
+            alerta = "Seguro";
+        }else{
+            alerta = "Warning!";
+            JOptionPane.showMessageDialog(jd_mantenimiento_massivo, alerta + "\n"+"User modified invalid atm");
+        }
+        String funcion = "Ingreso de dinero al ATM por "+user_on_use;
+        String monto =Integer.toString(quantity);
+        br = new BitRate(funcion, monto, alerta, atmcodex);
+        br.start();
+        JOptionPane.showMessageDialog(jd_mantenimiento_massivo, "Updated");
+        
+    }//GEN-LAST:event_jb_add_money_moneyMouseClicked
+
+    private void jb_exit_mantainanceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_exit_mantainanceMouseClicked
+        // TODO add your handling code here:
+        br.stop();
+        jd_mantenimiento_massivo.dispose();
+    }//GEN-LAST:event_jb_exit_mantainanceMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1398,4 +1449,5 @@ public class Principal_frame extends javax.swing.JFrame {
     DefaultMutableTreeNode nodo_seleccionado;
     String atmcodex;
     String user_on_use;
+    BitRate br;
 }
