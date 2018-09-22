@@ -27,7 +27,10 @@ public class Principal_frame extends javax.swing.JFrame {
     administrarClientes ac = new administrarClientes("./clientes.txt");
     administrarMantenimiento am = new administrarMantenimiento("./mantenimiento.txt");
     administradorATM atm = new administradorATM("./atms.txt");
+    
+    
     public Principal_frame() {
+        
         initComponents();
         admins.add(new Administrador("admin", "admin", "12345"));
         atm.cargarArchivo();
@@ -37,6 +40,10 @@ public class Principal_frame extends javax.swing.JFrame {
             modelock.addElement(atm.getAtms().get(counter_s).getId());
             counter_s++;
         }
+        
+        HiloHours h = new HiloHours(jl_hora);
+        Thread proceso1 = new Thread(h);
+        proceso1.start();
     }
 
     /**
@@ -119,6 +126,12 @@ public class Principal_frame extends javax.swing.JFrame {
         jLabel23 = new javax.swing.JLabel();
         jb_logger_stx = new javax.swing.JButton();
         jd_mantenimiento_massivo = new javax.swing.JDialog();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jl_codigo_atm = new javax.swing.JLabel();
+        jl_hora = new javax.swing.JLabel();
+        jb_add_money_money = new javax.swing.JButton();
+        jb_exit_mantainance = new javax.swing.JButton();
         jd_cliente_xd = new javax.swing.JDialog();
         jLabel1 = new javax.swing.JLabel();
         jb_ingresar = new javax.swing.JButton();
@@ -636,15 +649,58 @@ public class Principal_frame extends javax.swing.JFrame {
                 .addGap(29, 29, 29))
         );
 
+        jLabel24.setText("Mantenimiento");
+
+        jLabel25.setText("ATM: ");
+
+        jl_codigo_atm.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jl_hora.setText("00:00:00");
+
+        jb_add_money_money.setText("Agregar DInero");
+
+        jb_exit_mantainance.setText("Exit");
+
         javax.swing.GroupLayout jd_mantenimiento_massivoLayout = new javax.swing.GroupLayout(jd_mantenimiento_massivo.getContentPane());
         jd_mantenimiento_massivo.getContentPane().setLayout(jd_mantenimiento_massivoLayout);
         jd_mantenimiento_massivoLayout.setHorizontalGroup(
             jd_mantenimiento_massivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(jd_mantenimiento_massivoLayout.createSequentialGroup()
+                .addGap(164, 164, 164)
+                .addComponent(jLabel24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addComponent(jl_hora)
+                .addGap(35, 35, 35))
+            .addGroup(jd_mantenimiento_massivoLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(jd_mantenimiento_massivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jb_add_money_money)
+                    .addGroup(jd_mantenimiento_massivoLayout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addGap(32, 32, 32)
+                        .addComponent(jl_codigo_atm, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_mantenimiento_massivoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jb_exit_mantainance)
+                .addGap(19, 19, 19))
         );
         jd_mantenimiento_massivoLayout.setVerticalGroup(
             jd_mantenimiento_massivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(jd_mantenimiento_massivoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jd_mantenimiento_massivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel24)
+                    .addComponent(jl_hora))
+                .addGap(18, 18, 18)
+                .addGroup(jd_mantenimiento_massivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25)
+                    .addComponent(jl_codigo_atm, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addComponent(jb_add_money_money)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(jb_exit_mantainance)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jd_cliente_xdLayout = new javax.swing.GroupLayout(jd_cliente_xd.getContentPane());
@@ -1098,14 +1154,17 @@ public class Principal_frame extends javax.swing.JFrame {
 
     private void jb_logger_stxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_logger_stxMouseClicked
         // TODO add your handling code here:
+        atm.cargarArchivo();
+        ac.cargarArchivo();
+        am.cargarArchivo();
+        
         String user_placed = tf_userlogin.getText();
         String password= pf_pass_login.getText();
         String pass_verify="";
         String user_verify="";
         boolean validate1=false;
         boolean validate2=false;
-        ac.cargarArchivo();
-        am.cargarArchivo();
+        
         int count=0;
         int counter=0;
         for (Cliente c : ac.getListaClientes()) {
@@ -1268,6 +1327,8 @@ public class Principal_frame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1279,10 +1340,12 @@ public class Principal_frame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jb_add_account;
     private javax.swing.JButton jb_add_atm_to_user;
+    private javax.swing.JButton jb_add_money_money;
     private javax.swing.JButton jb_admin_ingresar;
     private javax.swing.JButton jb_administrar;
     private javax.swing.JButton jb_crear_atm;
     private javax.swing.JButton jb_crearuser_xp;
+    private javax.swing.JButton jb_exit_mantainance;
     private javax.swing.JButton jb_guardar_cuenta_creada;
     private javax.swing.JButton jb_ingresar;
     private javax.swing.JButton jb_logger_stx;
@@ -1298,6 +1361,8 @@ public class Principal_frame extends javax.swing.JFrame {
     private javax.swing.JDialog jd_personnel;
     private javax.swing.JDialog jd_register;
     private javax.swing.JDialog jd_user_create;
+    private javax.swing.JLabel jl_codigo_atm;
+    private javax.swing.JLabel jl_hora;
     private javax.swing.JMenuItem jmi_add_account;
     private javax.swing.JMenuItem jmi_addatm;
     private javax.swing.JTree jt_clientes;
