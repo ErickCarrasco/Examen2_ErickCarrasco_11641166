@@ -1182,12 +1182,14 @@ public class Principal_frame extends javax.swing.JFrame {
             }
             counter++;
         }
+        if (validate2) {
+           pass_verify = ac.getListaClientes().get(count).getPassword(); 
+        }
         
-        pass_verify = ac.getListaClientes().get(count).getPassword();
-        int counter2=0;
-        int counter3=0;
-        if (validate2!=true) {
-            
+        
+        if (validate2 != true) {
+            int counter2 = 0;
+            int counter3 = 0;
             for (Mantenimiento m : am.getListaMantenimiento()) {
                 if (m.getId().equals(user_placed)) {
                     counter3 = counter2;

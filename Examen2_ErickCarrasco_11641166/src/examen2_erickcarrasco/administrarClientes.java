@@ -125,7 +125,7 @@ public class administrarClientes {
                 }
 
             } catch (Exception ex) {
-                System.out.println("No data");
+                //System.out.println("No data");
             } finally {
                 sc.close();
             }
