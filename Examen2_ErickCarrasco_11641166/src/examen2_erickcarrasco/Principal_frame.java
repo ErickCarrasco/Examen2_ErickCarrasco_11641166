@@ -1034,18 +1034,21 @@ public class Principal_frame extends javax.swing.JFrame {
 
     private void jmi_addatmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_addatmActionPerformed
         // TODO add your handling code here:
-        atm.cargarArchivo();
-        DefaultComboBoxModel modeloc = (DefaultComboBoxModel) cb_atms_disponibles.getModel();
-        int counter_s = 0;
-        for (atm a : atm.getAtms()) {
-            modeloc.addElement(atm.getAtms().get(counter_s).getId());
-            counter_s++;
-        }
-        jd_agregar_atm.setModal(true);
-        jd_agregar_atm.pack();
-        jd_agregar_atm.setLocationRelativeTo(jd_register);
-        jd_register.setVisible(true);
-
+        try {
+            atm.cargarArchivo();
+            DefaultComboBoxModel modeloc = (DefaultComboBoxModel) cb_atms_disponibles.getModel();
+            int counter_s = 0;
+            for (atm a : atm.getAtms()) {
+                modeloc.addElement(atm.getAtms().get(counter_s).getId());
+                counter_s++;
+            }
+            jd_agregar_atm.setModal(true);
+            jd_agregar_atm.pack();
+            jd_agregar_atm.setLocationRelativeTo(jd_register);
+            jd_register.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }   
     }//GEN-LAST:event_jmi_addatmActionPerformed
 
     private void jb_add_atm_to_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_add_atm_to_userMouseClicked
