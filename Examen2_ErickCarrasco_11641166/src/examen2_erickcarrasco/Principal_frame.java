@@ -30,6 +30,13 @@ public class Principal_frame extends javax.swing.JFrame {
     public Principal_frame() {
         initComponents();
         admins.add(new Administrador("admin", "admin", "12345"));
+        atm.cargarArchivo();
+        DefaultComboBoxModel modelock = (DefaultComboBoxModel) cb_atms.getModel();
+        int counter_s = 0;
+        for (atm a : atm.getAtms()) {
+            modelock.addElement(atm.getAtms().get(counter_s).getId());
+            counter_s++;
+        }
     }
 
     /**
@@ -46,6 +53,7 @@ public class Principal_frame extends javax.swing.JFrame {
         crearuser = new javax.swing.JButton();
         crearatm = new javax.swing.JButton();
         jb_personal_atm = new javax.swing.JButton();
+        jb_add_account = new javax.swing.JButton();
         jd_administrator = new javax.swing.JDialog();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -93,10 +101,30 @@ public class Principal_frame extends javax.swing.JFrame {
         jd_agregar_atm = new javax.swing.JDialog();
         cb_atms_disponibles = new javax.swing.JComboBox();
         jb_add_atm_to_user = new javax.swing.JButton();
+        jd_add_account = new javax.swing.JDialog();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jt_clientes = new javax.swing.JTree();
+        Popup_addaccount = new javax.swing.JPopupMenu();
+        jmi_add_account = new javax.swing.JMenuItem();
+        jd_create_account_user = new javax.swing.JDialog();
+        jLabel20 = new javax.swing.JLabel();
+        tf_numcuenta = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        tf_saldo = new javax.swing.JTextField();
+        jb_guardar_cuenta_creada = new javax.swing.JButton();
+        jd_login = new javax.swing.JDialog();
+        tf_userlogin = new javax.swing.JTextField();
+        pf_pass_login = new javax.swing.JPasswordField();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jb_logger_stx = new javax.swing.JButton();
+        jd_mantenimiento_massivo = new javax.swing.JDialog();
+        jd_cliente_xd = new javax.swing.JDialog();
         jLabel1 = new javax.swing.JLabel();
         jb_ingresar = new javax.swing.JButton();
         jb_administrar = new javax.swing.JButton();
         cb_atms = new javax.swing.JComboBox();
+        jButton1 = new javax.swing.JButton();
 
         jLabel5.setText("Creation Admin");
 
@@ -121,6 +149,13 @@ public class Principal_frame extends javax.swing.JFrame {
             }
         });
 
+        jb_add_account.setText("Agregar Cuenta");
+        jb_add_account.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_add_accountMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jd_registerLayout = new javax.swing.GroupLayout(jd_register.getContentPane());
         jd_register.getContentPane().setLayout(jd_registerLayout);
         jd_registerLayout.setHorizontalGroup(
@@ -128,18 +163,19 @@ public class Principal_frame extends javax.swing.JFrame {
             .addGroup(jd_registerLayout.createSequentialGroup()
                 .addGap(153, 153, 153)
                 .addComponent(jLabel5)
-                .addContainerGap(178, Short.MAX_VALUE))
-            .addGroup(jd_registerLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_registerLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addGroup(jd_registerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jd_registerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jd_registerLayout.createSequentialGroup()
-                        .addComponent(jb_personal_atm)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jb_add_account)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                        .addComponent(jb_personal_atm))
                     .addGroup(jd_registerLayout.createSequentialGroup()
                         .addComponent(crearuser)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(crearatm)
-                        .addGap(59, 59, 59))))
+                        .addComponent(crearatm)))
+                .addGap(59, 59, 59))
         );
         jd_registerLayout.setVerticalGroup(
             jd_registerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,9 +186,11 @@ public class Principal_frame extends javax.swing.JFrame {
                 .addGroup(jd_registerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(crearuser)
                     .addComponent(crearatm))
-                .addGap(38, 38, 38)
-                .addComponent(jb_personal_atm)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addGroup(jd_registerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jb_personal_atm)
+                    .addComponent(jb_add_account))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         jLabel2.setText("Credenciales");
@@ -468,17 +506,181 @@ public class Principal_frame extends javax.swing.JFrame {
                 .addGap(40, 40, 40))
         );
 
+        treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Clientes");
+        jt_clientes.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jt_clientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_clientesMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jt_clientes);
+
+        javax.swing.GroupLayout jd_add_accountLayout = new javax.swing.GroupLayout(jd_add_account.getContentPane());
+        jd_add_account.getContentPane().setLayout(jd_add_accountLayout);
+        jd_add_accountLayout.setHorizontalGroup(
+            jd_add_accountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_add_accountLayout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(98, Short.MAX_VALUE))
+        );
+        jd_add_accountLayout.setVerticalGroup(
+            jd_add_accountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_add_accountLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
+        );
+
+        jmi_add_account.setText("Agregar Cuenta");
+        jmi_add_account.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_add_accountActionPerformed(evt);
+            }
+        });
+        Popup_addaccount.add(jmi_add_account);
+
+        jLabel20.setText("Cuenta: ");
+
+        jLabel21.setText("Saldo: ");
+
+        jb_guardar_cuenta_creada.setText("Guardar");
+        jb_guardar_cuenta_creada.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_guardar_cuenta_creadaMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_create_account_userLayout = new javax.swing.GroupLayout(jd_create_account_user.getContentPane());
+        jd_create_account_user.getContentPane().setLayout(jd_create_account_userLayout);
+        jd_create_account_userLayout.setHorizontalGroup(
+            jd_create_account_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_create_account_userLayout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addGroup(jd_create_account_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_create_account_userLayout.createSequentialGroup()
+                        .addComponent(jb_guardar_cuenta_creada)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jd_create_account_userLayout.createSequentialGroup()
+                        .addGroup(jd_create_account_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jd_create_account_userLayout.createSequentialGroup()
+                                .addComponent(jLabel21)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(tf_saldo, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jd_create_account_userLayout.createSequentialGroup()
+                                .addComponent(jLabel20)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(tf_numcuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(184, 184, 184))))
+        );
+        jd_create_account_userLayout.setVerticalGroup(
+            jd_create_account_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_create_account_userLayout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addGroup(jd_create_account_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(tf_numcuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(jd_create_account_userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(tf_saldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addComponent(jb_guardar_cuenta_creada)
+                .addGap(32, 32, 32))
+        );
+
+        jLabel22.setText("Cuenta");
+
+        jLabel23.setText("Pass");
+
+        jb_logger_stx.setText("Log in");
+        jb_logger_stx.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_logger_stxMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_loginLayout = new javax.swing.GroupLayout(jd_login.getContentPane());
+        jd_login.getContentPane().setLayout(jd_loginLayout);
+        jd_loginLayout.setHorizontalGroup(
+            jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_loginLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_loginLayout.createSequentialGroup()
+                        .addComponent(jLabel22)
+                        .addGap(5, 5, 5))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_loginLayout.createSequentialGroup()
+                        .addComponent(jLabel23)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jb_logger_stx)
+                    .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(tf_userlogin)
+                        .addComponent(pf_pass_login, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        jd_loginLayout.setVerticalGroup(
+            jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_loginLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf_userlogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel22))
+                .addGap(54, 54, 54)
+                .addGroup(jd_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pf_pass_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel23))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addComponent(jb_logger_stx)
+                .addGap(29, 29, 29))
+        );
+
+        javax.swing.GroupLayout jd_mantenimiento_massivoLayout = new javax.swing.GroupLayout(jd_mantenimiento_massivo.getContentPane());
+        jd_mantenimiento_massivo.getContentPane().setLayout(jd_mantenimiento_massivoLayout);
+        jd_mantenimiento_massivoLayout.setHorizontalGroup(
+            jd_mantenimiento_massivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jd_mantenimiento_massivoLayout.setVerticalGroup(
+            jd_mantenimiento_massivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jd_cliente_xdLayout = new javax.swing.GroupLayout(jd_cliente_xd.getContentPane());
+        jd_cliente_xd.getContentPane().setLayout(jd_cliente_xdLayout);
+        jd_cliente_xdLayout.setHorizontalGroup(
+            jd_cliente_xdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jd_cliente_xdLayout.setVerticalGroup(
+            jd_cliente_xdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Eurostile Extended", 0, 18)); // NOI18N
         jLabel1.setText("ATM");
 
         jb_ingresar.setText("Ingresar ");
+        jb_ingresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_ingresarMouseClicked(evt);
+            }
+        });
 
         jb_administrar.setText("Crear");
         jb_administrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jb_administrarMouseClicked(evt);
+            }
+        });
+
+        jButton1.setText("Ayuda");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
             }
         });
 
@@ -498,7 +700,9 @@ public class Principal_frame extends javax.swing.JFrame {
                             .addComponent(cb_atms, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(102, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jb_administrar))
         );
         layout.setVerticalGroup(
@@ -511,7 +715,9 @@ public class Principal_frame extends javax.swing.JFrame {
                 .addGap(76, 76, 76)
                 .addComponent(cb_atms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
-                .addComponent(jb_administrar))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jb_administrar)
+                    .addComponent(jButton1)))
         );
 
         pack();
@@ -772,6 +978,7 @@ public class Principal_frame extends javax.swing.JFrame {
 
     private void jmi_addatmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_addatmActionPerformed
         // TODO add your handling code here:
+        atm.cargarArchivo();
         DefaultComboBoxModel modeloc = (DefaultComboBoxModel) cb_atms_disponibles.getModel();
         int counter_s = 0;
         for (atm a : atm.getAtms()) {
@@ -787,10 +994,218 @@ public class Principal_frame extends javax.swing.JFrame {
 
     private void jb_add_atm_to_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_add_atm_to_userMouseClicked
         // TODO add your handling code here:
-        mant_seleccionado.setAtm(cb_atms_disponibles.getSelectedItem().toString());
+        am.cargarArchivo();
+        //mant_seleccionado.setAtm(cb_atms_disponibles.getSelectedItem().toString());
+        for (Mantenimiento m : am.getListaMantenimiento()) {
+            if (m.getId().equals(mant_seleccionado.getId())) {
+                m.setAtm(cb_atms_disponibles.getSelectedItem().toString());
+            }
+        }
         JOptionPane.showMessageDialog(jd_agregar_atm, "Se ha agregado");
         jd_agregar_atm.dispose();
+        try {
+            am.escribirArchivo();
+        } catch (IOException ex) {
+            //Logger.getLogger(Principal_frame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jb_add_atm_to_userMouseClicked
+
+    private void jt_clientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_clientesMouseClicked
+        // TODO add your handling code here:
+        if (evt.isMetaDown()) {
+            int row = jt_clientes.getClosestRowForLocation(evt.getX(),evt.getY());
+            jt_clientes.setSelectionRow(row);
+            Object v1
+                    = jt_clientes.getSelectionPath().
+                            getLastPathComponent();
+            nodo_seleccionado = (DefaultMutableTreeNode) v1;
+            if (nodo_seleccionado.getUserObject() instanceof Cliente) {
+                cliente_seleccionado
+                        = (Cliente)  nodo_seleccionado.
+                                getUserObject();
+                Popup_addaccount.show(evt.getComponent(), 
+                        evt.getX(), evt.getY());
+            }
+        }
+    }//GEN-LAST:event_jt_clientesMouseClicked
+
+    private void jmi_add_accountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_add_accountActionPerformed
+        // TODO add your handling code here:
+        ac.cargarArchivo();
+        /*
+        DefaultComboBoxModel modeloc = (DefaultComboBoxModel) cb_clientes_disponibles.getModel();
+        int counter_s = 0;
+        for (Cliente a : ac.getListaClientes()) {
+            modeloc.addElement(atm.getAtms().get(counter_s).getId());
+            counter_s++;
+        }
+        */
+        jd_create_account_user.setModal(true);
+        jd_create_account_user.pack();
+        jd_create_account_user.setLocationRelativeTo(jd_add_account);
+        jd_create_account_user.setVisible(true);
+        
+    }//GEN-LAST:event_jmi_add_accountActionPerformed
+
+    private void jb_guardar_cuenta_creadaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_guardar_cuenta_creadaMouseClicked
+        // TODO add your handling code here:
+        ac.cargarArchivo();
+        String cuenta = tf_numcuenta.getText();
+        int saldo = Integer.parseInt(tf_saldo.getText());
+        String cuenta_china =cliente_seleccionado.getId();
+        boolean validador = true;
+        for (Cliente c: ac.getListaClientes()) {
+            for (Cuenta ac : c.getCuentas()) {
+                String cuenta_verify= ac.getNumcuenta();
+                if (cuenta_verify.equals(cuenta)) {
+                    JOptionPane.showMessageDialog(jd_add_account, "La cuenta ya esta tomada");
+                    validador = false;
+                }
+            }
+        }
+        if (validador) {
+            //cliente_seleccionado.getCuentas().add(new Cuenta(cuenta, saldo, cuenta_china));
+            for (Cliente ces : ac.getListaClientes()) {
+                if (ces.getId().equals(cliente_seleccionado.getId())) {
+                    ces.getCuentas().add(new Cuenta(cuenta, saldo, cuenta_china));
+                }
+            }
+            JOptionPane.showMessageDialog(jd_create_account_user, "Se ha agregado cuenta");
+            try {
+                ac.escribirArchivo();
+            } catch (IOException ex) {
+                //Logger.getLogger(Principal_frame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            tf_numcuenta.setText("");
+            tf_saldo.setText("");
+        }
+        
+    }//GEN-LAST:event_jb_guardar_cuenta_creadaMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Usuario: admin, clave: 12345");
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jb_ingresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_ingresarMouseClicked
+        // TODO add your handling code here:
+        atmcodex = cb_atms.getSelectedItem().toString();
+        jd_login.setModal(true);
+        jd_login.pack();
+        jd_login.setLocationRelativeTo(this);
+        jd_login.setVisible(true);
+    }//GEN-LAST:event_jb_ingresarMouseClicked
+
+    private void jb_logger_stxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_logger_stxMouseClicked
+        // TODO add your handling code here:
+        String user_placed = tf_userlogin.getText();
+        String password= pf_pass_login.getText();
+        String pass_verify="";
+        String user_verify="";
+        boolean validate1=false;
+        boolean validate2=false;
+        ac.cargarArchivo();
+        am.cargarArchivo();
+        int count=0;
+        int counter=0;
+        for (Cliente c : ac.getListaClientes()) {
+            for (Cuenta cu : c.getCuentas()) {
+                if (cu.getNumcuenta().equals(user_placed)) {
+                    user_verify=cu.getNumcuenta();
+                    counter = count;
+                    validate2= true;
+                    validate1=true;
+                }
+                
+            }
+            if (validate1) {
+                user_on_use = c.getId();
+            }
+            counter++;
+        }
+        
+        pass_verify = ac.getListaClientes().get(count).getPassword();
+        int counter2=0;
+        int counter3=0;
+        if (validate2!=true) {
+            
+            for (Mantenimiento m : am.getListaMantenimiento()) {
+                if (m.getId().equals(user_placed)) {
+                    counter3 = counter2;
+                    validate1 = true;
+                }
+                if (validate1) {
+                    user_on_use = m.getId();
+                }
+                counter2++;
+            }
+            
+            pass_verify= am.getListaMantenimiento().get(counter3).getPassword();
+        }
+        
+        if (user_verify.equals(user_placed)&& pass_verify.equals(password) && validate2 == true) {
+            jd_cliente_xd.setModal(true);
+            jd_cliente_xd.pack();
+            jd_cliente_xd.setLocationRelativeTo(jd_login);
+            jd_cliente_xd.setVisible(true);
+            pf_pass_login.setText("");
+            tf_userlogin.setText("");
+        }
+        if (user_verify.equals(user_placed)&& pass_verify.equals(password) && validate2== false) {
+            jd_mantenimiento_massivo.setModal(true);
+            jd_mantenimiento_massivo.pack();
+            jd_mantenimiento_massivo.setLocationRelativeTo(jd_login);
+            jd_mantenimiento_massivo.setVisible(true);
+            pf_pass_login.setText("");
+            tf_userlogin.setText("");
+        }
+        
+    }//GEN-LAST:event_jb_logger_stxMouseClicked
+
+    private void jb_add_accountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_add_accountMouseClicked
+        // TODO add your handling code here:
+        try{
+        ac.cargarArchivo();
+        DefaultTreeModel modeloARBOL
+                = (DefaultTreeModel) jt_clientes.getModel();
+        jt_clientes.removeAll();
+        DefaultMutableTreeNode raiz
+                = (DefaultMutableTreeNode) modeloARBOL.getRoot();
+        
+
+        String nombre, nombre2, apellido, apellido2, clave, birth, affilacion, id;
+        int counter = 0;
+        for (Cliente m : ac.getListaClientes()) {
+            nombre = ac.getListaClientes().get(counter).getNombre();
+            nombre2 = ac.getListaClientes().get(counter).getSegundonombre();
+            apellido = ac.getListaClientes().get(counter).getApellido();
+            apellido2 = ac.getListaClientes().get(counter).getSegapellido();
+            clave = ac.getListaClientes().get(counter).getPassword();
+            birth = ac.getListaClientes().get(counter).getBirthdate();
+            affilacion = ac.getListaClientes().get(counter).getAffilation();
+            id = ac.getListaClientes().get(counter).getId();
+
+            DefaultMutableTreeNode p
+                    = new DefaultMutableTreeNode(
+                            new Cliente(id, nombre, nombre2, apellido, apellido2,
+                                    clave, birth, affilacion)
+                    );
+
+            raiz.add(p);
+
+            modeloARBOL.reload();
+            counter++;
+            
+            
+        }
+        jd_add_account.setModal(true);
+            jd_add_account.pack();
+            jd_add_account.setLocationRelativeTo(jd_register);
+            jd_add_account.setVisible(true);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jb_add_accountMouseClicked
 
     /**
      * @param args the command line arguments
@@ -828,6 +1243,7 @@ public class Principal_frame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPopupMenu Popup_addaccount;
     private javax.swing.JPopupMenu Popup_addatm;
     private javax.swing.JComboBox cb_atms;
     private javax.swing.JComboBox cb_atms_disponibles;
@@ -835,6 +1251,7 @@ public class Principal_frame extends javax.swing.JFrame {
     private javax.swing.JComboBox cb_type_user;
     private javax.swing.JButton crearatm;
     private javax.swing.JButton crearuser;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -847,6 +1264,10 @@ public class Principal_frame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -855,23 +1276,35 @@ public class Principal_frame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jb_add_account;
     private javax.swing.JButton jb_add_atm_to_user;
     private javax.swing.JButton jb_admin_ingresar;
     private javax.swing.JButton jb_administrar;
     private javax.swing.JButton jb_crear_atm;
     private javax.swing.JButton jb_crearuser_xp;
+    private javax.swing.JButton jb_guardar_cuenta_creada;
     private javax.swing.JButton jb_ingresar;
+    private javax.swing.JButton jb_logger_stx;
     private javax.swing.JButton jb_personal_atm;
+    private javax.swing.JDialog jd_add_account;
     private javax.swing.JDialog jd_administrator;
     private javax.swing.JDialog jd_agregar_atm;
+    private javax.swing.JDialog jd_cliente_xd;
+    private javax.swing.JDialog jd_create_account_user;
+    private javax.swing.JDialog jd_login;
+    private javax.swing.JDialog jd_mantenimiento_massivo;
     private javax.swing.JDialog jd_newatm;
     private javax.swing.JDialog jd_personnel;
     private javax.swing.JDialog jd_register;
     private javax.swing.JDialog jd_user_create;
+    private javax.swing.JMenuItem jmi_add_account;
     private javax.swing.JMenuItem jmi_addatm;
+    private javax.swing.JTree jt_clientes;
     private javax.swing.JTree jt_personal_mantenimiento;
     private javax.swing.JPasswordField pf_admin;
     private javax.swing.JPasswordField pf_create_user;
+    private javax.swing.JPasswordField pf_pass_login;
     private javax.swing.JTextField tf_admin;
     private javax.swing.JTextField tf_affilation;
     private javax.swing.JTextField tf_apellido_user;
@@ -880,14 +1313,19 @@ public class Principal_frame extends javax.swing.JFrame {
     private javax.swing.JTextField tf_id_atm;
     private javax.swing.JTextField tf_id_user_create;
     private javax.swing.JTextField tf_nombre_create_iuser;
+    private javax.swing.JTextField tf_numcuenta;
     private javax.swing.JTextField tf_productiondate_atm;
+    private javax.swing.JTextField tf_saldo;
     private javax.swing.JTextField tf_segundoapellido_user;
     private javax.swing.JTextField tf_segundonombre;
     private javax.swing.JTextField tf_transacciones;
+    private javax.swing.JTextField tf_userlogin;
     // End of variables declaration//GEN-END:variables
     ArrayList<Administrador> admins = new ArrayList();
     Mantenimiento mant_seleccionado;
     atm atm_seleccionado;
     Cliente cliente_seleccionado;
     DefaultMutableTreeNode nodo_seleccionado;
+    String atmcodex;
+    String user_on_use;
 }
